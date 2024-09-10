@@ -1,1 +1,176 @@
-<iframe src="https://Picard1701ent.github.io/CS180.github.io/1/CS_180_Project1.pdf" width="100%" height="600px"></iframe>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图像处理项目文档</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            margin: 0;
+            background: #f4f4f4;
+        }
+        section {
+            background: #fff;
+            margin: 10px 0;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        p {
+            color: #666;
+            margin-bottom: 10px;
+        }
+      .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 8px;
+        }
+
+        .photo {
+            flex-basis: 22%;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .photo img {
+            width: 100%; 
+            height: auto;
+            border-radius: 8px; 
+        }
+        .caption {
+            font-family: Arial, sans-serif;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <h1>Project 1: Images of the Russian Empire -- Colorizing the Prokudin-Gorskii Photo Collection</h1>
+    <h2>Result</h2>
+    <h3>Low Quality Images</h3>
+    <div class="gallery">
+        <div class="photo">
+            <img src="Result/Low Quality/cathedral.jpg" alt="Description of Image 1">
+            <div class="caption">Image 1 Description</div>
+        </div>
+        <div class="photo">
+            <img src="/Result/Low Quality/monastery.jpg" alt="Description of Image 2">
+            <div class="caption">Image 2 Description</div>
+        </div>
+        <div class="photo">
+            <img src="/Result/Low Quality/tobolsk.jpg" alt="Description of Image 3">
+            <div class="caption">Image 3 Description</div>
+        </div>
+    </div>
+    <h3>High Quality Images</h3>
+    <div class="gallery">
+          <div class="photo">
+              <img src="Result/High Quality/church.jpg" alt="Description of Image 1">
+              <div class="caption">Image 1 Description</div>
+          </div>
+          <div class="photo">
+              <img src="Result/High Quality/emir.jpg" alt="Description of Image 2">
+              <div class="caption">Image 2 Description</div>
+          </div>
+          <div class="photo">
+              <img src="Result/High Quality/harvesters.jpg" alt="Description of Image 3">
+              <div class="caption">Image 3 Description</div>
+          </div>
+          <div class="photo">
+              <img src="Result/High Quality/icon.jpg" alt="Description of Image 3">
+              <div class="caption">Image 3 Description</div>
+          </div>
+          <div class="photo">
+              <img src="Result/High Quality/melons.jpg" alt="Description of Image 3">
+              <div class="caption">Image 3 Description</div>
+          </div>
+          <div class="photo">
+              <img src="Result/High Quality/onion_church.jpg" alt="Description of Image 3">
+              <div class="caption">Image 3 Description</div>
+          </div>
+          <div class="photo">
+              <img src="Result/High Quality/sculpture.jpg" alt="Description of Image 3">
+              <div class="caption">Image 3 Description</div>
+          </div>
+          <div class="photo">
+              <img src="Result/High Quality/self_portrait.jpg" alt="Description of Image 3">
+              <div class="caption">Image 3 Description</div>
+          </div>
+          <div class="photo">
+              <img src="Result/High Quality/three_generations.jpg" alt="Description of Image 3">
+              <div class="caption">Image 3 Description</div>
+          </div>
+          <div class="photo">
+              <img src="Result/High Quality/train.jpg" alt="Description of Image 3">
+              <div class="caption">Image 3 Description</div>
+          </div>
+      </div>
+    <h3>Self-Select Images</h3>
+    <section>
+        <h2>Overview</h2>
+        <p>In this project focusing on color channel alignment, I initially cropped the image to remove a $15\%$ edge,
+          which helps prevent black or white edges from interfering with the model's processing. 
+          Subsequently, I employed a combination of the Sobel Edge Detection algorithm and a Pyramid structure. 
+          This approach not only ensures precise color channel alignment but also enhances the speed of the algorithm when processing large images.
+          Additionally, to address issues of color distortion, a color adjustment strategy was implemented to improve the quality of the aligned images.</p>
+        <p>In order to validate the generalizability and effectiveness of the algorithm, three additional images were selected for testing. 
+          This step is critical to ensuring that the color alignment technique performs consistently across diverse image types and real-world applications.</p>
+    </section>
+    <section>
+        <h2>Sobel Scan</h2>
+            <h3>How it Works</h3>
+            <p>The Sobel Edge Detection algorithm, introduced by Irwin Sobel in 1968, represents a pivotal advancement in image processing technologies. 
+              This method is now regarded as one of the most fundamental and widely-used techniques for edge detection in digital image processing.
+              The Sobel operator distinguishes itself by its simplicity and efficiency, making it particularly effective for real-time applications.</p>
+            <p>If we denote the source image by \( I \), the results of the convolution of \( I \) with the Sobel kernels are two derivative images: \( G_x \) and \( G_y \). Here, \( G_x \) contains the approximations of the horizontal gradients, and \( G_y \) contains the vertical gradients. These gradients at any point in the image are calculated as follows:</p>
+        
+            <p>\[
+            G_x = \begin{bmatrix}
+            -1 & 0 & 1 \\
+            -2 & 0 & 2 \\
+            -1 & 0 & 1
+            \end{bmatrix} \cdot I, \quad
+            G_y = \begin{bmatrix}
+            -1 & -2 & -1 \\
+            0 & 0 & 0 \\
+            1 & 2 & 1
+            \end{bmatrix} \cdot I  
+            \]</p>
+            
+            <p>The magnitude of the gradient at each point gives the edge response at that point and can be calculated using the following function:</p>
+          
+          <p>\[
+          G = \sqrt{G_x^2 + G_y^2}
+          \]</p>
+          
+          <p>High magnitude of gradient represents the edge of items, after normalizing the result, I visualized one of the edge detection result as below:</p>
+          <img src="edge_detection_result.jpg" alt="Edge Detection Result" style="width: 100%; max-width: 600px;">
+          <h3>Compare Between Only NCC and Sobel Scan</h3>
+          <h3>Sobel Scan Speed Up</h3>
+          <p>Without import any other libraries just 'Numpy', it would be too slow to use 'for' loops to scan a large image. To accelerate this process, I create a 6 layers matrix to help increase the speed - by moving around the calculated matrix and stack them together then use 'numpy.sum' can easily calculate the derivative result.</p>
+          <p>If the orange block is the pixel that need calculate the derivative, by moving around the matrix, stacking them and adding them together (For easier understanding, I didn't show out all of the moving matrix)</p>
+          <img src="edge_detection_result.jpg" alt="Edge Detection Result" style="width: 100%; max-width: 600px;">
+    </section>
+  <section>
+    <h2>Color Adjustment</h2>
+    <p>I adjust the average pixel value in each channel and calculate the augmentation coefficients and apply them to each channel. The coefficient's function is listed as follows:</p>
+    <p>\[
+    \text{coef} = \frac{\text{average}(I)}{\text{average}(C)}
+    \]</p>
+    
+    <p>The adjustment method is listed as follows:</p>
+    <p>\[
+    \text{adjust C} = C \times  \text{coef}
+    \]</p>
+  </section>
+</body>
+
+  
+</html>
