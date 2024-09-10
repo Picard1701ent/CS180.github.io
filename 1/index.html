@@ -1,8 +1,8 @@
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>图像处理项目文档</title>
+    <title></title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -53,8 +53,8 @@
         justify-content: space-around;
         }
         .image-pair {
-            flex-basis: 48%; /* 控制宽度，两个为一行 */
-            margin: 1%; /* 简单的间距控制 */
+            flex-basis: 48%;
+            margin: 1%; 
         }
         .image-pair img {
             width: 100%;
@@ -67,6 +67,18 @@
 </head>
 <body>
     <h1>Project 1: Images of the Russian Empire -- Colorizing the Prokudin-Gorskii Photo Collection</h1>
+    <h2> by Xudong Chen</h2>
+    <section>
+    <h2>Overview</h2>
+    <p>In this project focusing on color channel alignment, I initially cropped the image to remove a $15\%$ edge,
+      which helps prevent black or white edges from interfering with the model's processing. 
+      Subsequently, I employed a combination of the Sobel Edge Detection algorithm and a Pyramid structure. 
+      This approach not only ensures precise color channel alignment but also enhances the speed of the algorithm when processing large images.
+      Additionally, to address issues of color distortion, a color adjustment strategy was implemented to improve the quality of the aligned images.</p>
+    <p>All large images were successfully aligned, each within 25 seconds, while smaller images were completed in about 5 seconds.
+      In order to validate the generalizability and effectiveness of the algorithm, three additional images were selected for testing. 
+      This step is critical to ensuring that the color alignment technique performs consistently across diverse image types and real-world applications.</p>
+    </section>
     <h2>Result</h2>
     <h3>Low Quality Images</h3>
     <div class="gallery">
@@ -142,16 +154,6 @@
             <img src="Result/Self Select/master-pnp-prok-00300-00346a.jpg" alt="">
         </div>
     </div>
-    <section>
-        <h2>Overview</h2>
-        <p>In this project focusing on color channel alignment, I initially cropped the image to remove a $15\%$ edge,
-          which helps prevent black or white edges from interfering with the model's processing. 
-          Subsequently, I employed a combination of the Sobel Edge Detection algorithm and a Pyramid structure. 
-          This approach not only ensures precise color channel alignment but also enhances the speed of the algorithm when processing large images.
-          Additionally, to address issues of color distortion, a color adjustment strategy was implemented to improve the quality of the aligned images.</p>
-        <p>In order to validate the generalizability and effectiveness of the algorithm, three additional images were selected for testing. 
-          This step is critical to ensuring that the color alignment technique performs consistently across diverse image types and real-world applications.</p>
-    </section>
     <section>
         <h2>Sobel Scan</h2>
             <h3>How it Works</h3>
