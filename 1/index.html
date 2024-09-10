@@ -47,6 +47,20 @@
             font-size: 0.9em;
             color: #666;
         }
+        .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        }
+        .image-pair {
+            flex-basis: 48%; /* 控制宽度，两个为一行 */
+            margin: 1%; /* 简单的间距控制 */
+        }
+        .image-pair img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
     </style>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -119,15 +133,15 @@
     <h3>Self-Select Images</h3>
     <div class="gallery">
         <div class="photo">
-            <img src="Result/Self Select/master-pnp-prok-00100-00110a.jpg" alt="Description of Image 1">
+            <img src="Result/Self Select/master-pnp-prok-00100-00110a.jpg" alt="">
             <div class="caption">Image 1 Description</div>
         </div>
         <div class="photo">
-            <img src="Result/Self Select/master-pnp-prok-00100-00178a.jpg" alt="Description of Image 2">
+            <img src="Result/Self Select/master-pnp-prok-00100-00178a.jpg" alt="">
             <div class="caption">Image 2 Description</div>
         </div>
         <div class="photo">
-            <img src="Result/Self Select/master-pnp-prok-00300-00346a.jpg" alt="Description of Image 3">
+            <img src="Result/Self Select/master-pnp-prok-00300-00346a.jpg" alt="">
             <div class="caption">Image 3 Description</div>
         </div>
     </div>
@@ -169,12 +183,20 @@
           \]</p>
           
           <p>High magnitude of gradient represents the edge of items, after normalizing the result, I visualized one of the edge detection result as below:</p>
-          <img src="edge_detection_result.jpg" alt="Edge Detection Result" style="width: 100%; max-width: 600px;">
+          <img src="other_image/SpeedUp.png" alt="Edge Detection Result" style="width: 100%; max-width: 600px;">
           <h3>Compare Between Only NCC and Sobel Scan</h3>
+            <div class="container">
+                <div class="image-pair">
+                    <img src="other_image/emir.jpg" alt="Emir without Sobel Scan">
+                </div>
+                <div class="image-pair">
+                    <img src="Result/High Quality/emir.jpg" alt="Emir with Sobel Scan">
+                </div>
+            </div>
           <h3>Sobel Scan Speed Up</h3>
           <p>Without import any other libraries just 'Numpy', it would be too slow to use 'for' loops to scan a large image. To accelerate this process, I create a 6 layers matrix to help increase the speed - by moving around the calculated matrix and stack them together then use 'numpy.sum' can easily calculate the derivative result.</p>
           <p>If the orange block is the pixel that need calculate the derivative, by moving around the matrix, stacking them and adding them together (For easier understanding, I didn't show out all of the moving matrix)</p>
-          <img src="edge_detection_result.jpg" alt="Edge Detection Result" style="width: 100%; max-width: 600px;">
+          <img src="other_image/B.jpg" alt="Edge Detection Result" style="width: 100%; max-width: 600px;">
     </section>
   <section>
     <h2>Color Adjustment</h2>
@@ -187,6 +209,20 @@
     <p>\[
     \text{adjust C} = C \times  \text{coef}
     \]</p>
+    <div class="container">
+        <div class="image-pair">
+            <img src="other_image/church_no_adjust.jpg" alt="Church without Adjustment">
+        </div>
+        <div class="image-pair">
+            <img src="Result/High Quality/church.jpg" alt="Church with Adjustment">
+        </div>
+        <div class="image-pair">
+            <img src="Result/High Quality/train_no_adjustment.jpg" alt="Train without Adjustment">
+        </div>
+        <div class="image-pair">
+            <img src="Result/High Quality/train.jpg" alt="Train with Adjustment">
+        </div>
+    </div>
   </section>
 </body>
 
