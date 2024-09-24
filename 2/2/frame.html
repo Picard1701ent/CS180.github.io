@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Processing Assignment</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; }
+        img { width: 100%; max-width: 600px; margin: 10px 0; }
+        .container { width: 95%; margin: auto; }
+        .section { margin-bottom: 20px; }
+        .figure {
+            margin: 5px; /* 元素间距 */
+            text-align: center;
+        }
+        .figure img { margin: 10px 0; }
+        .figure-caption { margin-top: 5px; font-style: italic; }
+        .grid-container4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 两列布局 */
+            gap: 0px; /* 网格单元格之间的间距 */
+            justify-content: space-between; /* 网格容器内容两端对齐 */
+            align-items: center;
+        }
+        .grid-container3 {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr); /* 两列布局 */
+            gap: 0px; /* 网格单元格之间的间距 */
+            justify-content: space-between; /* 网格容器内容两端对齐 */
+            align-items: center;
+        }
+        .grid-container2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 两列布局 */
+            gap: 0px; /* 网格单元格之间的间距 */
+            justify-content: space-between; /* 网格容器内容两端对齐 */
+            align-items: center;
+        }
+        .grid-container1 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 两列布局 */
+            gap: 0px; /* 网格单元格之间的间距 */
+            justify-content: space-between; /* 网格容器内容两端对齐 */
+            align-items: center;
+        }
+        .grid-container0 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 两列布局 */
+            gap: 0px; /* 网格单元格之间的间距 */
+            justify-content: space-between; /* 网格容器内容两端对齐 */
+            align-items: center;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); /* 两列布局 */
+            gap: 0px; /* 网格单元格之间的间距 */
+            justify-content: space-between; /* 网格容器内容两端对齐 */
+            align-items: center;
+        }
+        .figure-container {
+            display: grid;
+            justify-content: space-around; /* 或者使用 space-between */
+        }
+        .figure img {
+            max-width: 45%; /* 使图片响应式 */
+            height: auto; /* 保持宽高比 */
+        }
+    </style>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Fun with Filters and Frequencies!</h1>
+        </header>
+        <article>
+            <section class="section">
+                <h2>Finite Difference Operator</h2>
+                <p>
+                    The computation of gradient magnitude using the finite filters \([1,-1]\) and \([1,-1]^T\) is
+                    a method commonly applied in the field of digital image processing to approximate the derivative of a function. 
+                    This filter is particularly used to estimate the gradient in the horizontal direction of an image.
+                    The filter \(G_x\) computes the horizontal gradient \(G_y\) by calculating the difference between adjacent pixels.
+                    Similarly, the transpose filter \([1,-1]^T\) computes the vertical gradient \(G_y\) These filters highlight edges and transitions in pixel values,
+                    and essential for detecting features in images
+                </p>
+                <p>Once \(G_x\) and \(G_y\) have been computed, the overall gradient magnitude at each pixels is calculated using the fomula:</p>
+                <p style="text-align:center;">
+                    $$G = \sqrt{G_x ^2 + G_y ^2}$$
+                </p>
+                <p>This computed gradient magitude provides a scalar value representing the total rate of change in each pixels. High gradient magnitude 
+                    indicate potential boundaries betwween different image regions, making this method highly effective for edge detection tasks
+                </p>
+                <p>The filter result is listed below</p>  
+                <div class="grid-container0">     
+                    <div class="figure">
+                        <img src="result/2_1_1/x_scan_image.jpg" alt="Scan Result with Gx Filter">
+                        <div class="figure-caption">Scan Result wit Gx Filter</div>
+                    </div>
+                    <div class="figure">
+                        <img src="result/2_1_1/y_scan_image.jpg" alt="Scan Result with Gy Filter">
+                        <div class="figure-caption">Scan Result wit Gy Filter</div>
+                    </div>
+                    <div class="figure">
+                        <img src="result/2_1_1/scan_image50.jpg" alt="Scan Result">
+                        <div class="figure-caption">Scan Result</div>
+                    </div>   
+                </div>              
+            </section>
+            <section class="section">
+                <h2>Applying tje Derivative of Gaussian(DoG) Filter</h2>
+                <p>The Gaussian kernel is an essential tool for smoothing images. 
+                    It helps to reduce noise and detail by averaging out the pixels' values based on their spatial closeness. 
+                    To generate a Gaussian kernel, we use the function <code>cv2.getGaussianKernel()</code>, 
+                    which creates a one-dimensional Gaussian kernel. 
+                    This kernel is then converted to a two-dimensional kernel through an outer product of the 1D kernel with its transpose.
+                    The size and standard deviation of the kernel are set to control the amount and scale of smoothing
+                </p>
+                <p>To enhance edge detection capabilities, we use the Derivative of Gaussian (DoG) method, which involves convolving the Gaussian kernel with a simple difference operator. 
+                    The difference operators, typically in the form of <code>[1, -1]</code> for horizontal and its transpose for vertical directions, are used to calculate the first derivatives of the Gaussian kernel.
+                    This convolution process produces two kernels, one for horizontal and another for vertical edge detection. 
+                    These derivative kernels are then used to highlight edges in the image, effectively allowing us to capture significant transitions in intensity.
+                </p>
+                <p>These are the results in this section:</p>
+                <div class="grid-container">
+                    <div class="figure">
+                        <img src="source_images/cameraman.png" alt="Original Image">
+                        <div class="figure-caption">Original Image</div>
+                    </div> 
+                    <div class="figure">
+                        <img src="result/2_1_2/blur.jpg" alt="Blur Image">
+                        <div class="figure-caption">Blur Image</div>
+                    </div>
+                    <div class="figure">
+                        <img src="result/2_1_2/gx_scan_image.jpg" alt="DoGx Scan Image">
+                        <div class="figure-caption">DoGx Scan Image</div>
+                    </div> 
+                    <div class="figure">
+                        <img src="result/2_1_2/gy_scan_image.jpg" alt="DoGy Scan Image">
+                        <div class="figure-caption">DoGy Scan Image</div>
+                    </div>  
+                    <div class="figure">
+                        <img src="result/2_1_2/gscan_image.jpg" alt="DoG Scan Image">
+                        <div class="figure-caption">DoG Scan Image</div>
+                    </div>    
+                </div>                
+                <div class="figure">
+                    <img src="result/2_1_2/Filters.jpg" alt="DoG Filters">
+                    <div class="figure-caption">DoG Filters</div>
+                </div> 
+
+            </section>
+            <section class="section">
+                <h2>Image Sharpening</h2>
+                <p>By using Gaussian Filters, the blured images are removed the high frequency values. Using the formula \(high freq = image - blurred image\), we can get high freqency values. Then we add high frequency values on the original image, and we get a sharpen image</p>
+                <p>Below, you can see a comparison between the original blurred image and the sharpened image. The effects of the technique are visible in the enhanced edges and textures, providing a clearer and more visually appealing result.</p>            
+                <div class="grid-container1">
+                    <div class="figure">
+                        <img src="source_images/taj.jpg" alt="Original Image">
+                        <div class="figure-caption">Original Image</div>
+                    </div> 
+                    <div class="figure">
+                        <img src="result/2_2/blur_taj.jpg" alt="Blur Image">
+                        <div class="figure-caption">Blur Image</div>
+                    </div>
+                    <div class="figure">
+                        <img src="result/2_2/high_freq_taj.jpg" alt="High Frequency">
+                        <div class="figure-caption">High Frequency</div>
+                    </div> 
+                    <div class="figure">
+                        <img src="result/2_2/sharpen_image_taj.jpg" alt="Sharpen Image">
+                        <div class="figure-caption">DoGy Scan Image</div>
+                    </div> 
+
+                    <div class="figure">
+                        <img src="source_images/tower.jpg" alt="Original Image">
+                        <div class="figure-caption">Original Image</div>
+                    </div> 
+                    <div class="figure">
+                        <img src="result/2_2/blur_tower.jpg" alt="Blur Image">
+                        <div class="figure-caption">Blur Image</div>
+                    </div>
+                    <div class="figure">
+                        <img src="result/2_2/high_freq_tower.jpg" alt="High Frequency">
+                        <div class="figure-caption">High Frequency</div>
+                    </div> 
+                    <div class="figure">
+                        <img src="result/2_2/sharpen_image_tower.jpg" alt="Sharpen Image">
+                        <div class="figure-caption">DoGy Scan Image</div>
+                    </div>  
+                </div>
+            </section>
+            <section class="section">
+                <h2>Hybrid Images</h2>
+                <p>Hybrid images are constructed by combining the high-frequency component of one image with the low-frequency component of another image. High frequencies are dominant at a closer look but fade away with distance, leaving only the smoother, low-frequency parts visible. This characteristic allows for different interpretations based on viewing distance.</p>
+                <p>The process involves the following steps:
+                    <ol>
+                        <li><strong>Image Selection and Alignment:</strong> Choose and align two images to ensure consistent perception grouping.</li>
+                        <li><strong>Frequency Filtering:</strong> Apply a low-pass Gaussian filter to one image to extract its low-frequency components. Subtract this result from the original image to create a high-pass filter output for the second image.</li>
+                        <li><strong>Image Combination:</strong> Combine these two filtered images to create the hybrid image.</li>
+                    </ol>
+                </p>
+                <p>To understand the effect of each filtering step, the log magnitude of the Fourier transform is computed for:
+                    <ul>
+                        <li>The original images.</li>
+                        <li>The fft result of each original images.</li>
+                        <li>The resulting hybrid image.</li>
+                    </ul>
+                    This analysis helps in visualizing the impact of filtering on image frequencies.
+                </p>    
+            </section>
+            <section>
+            <div class="grid-container2"> 
+                <div class="figure">
+                    <img src="source_images/nutmeg.jpg" alt="Cat">
+                    <div class="figure-caption">Cat</div>
+                </div>
+                <div class="figure">
+                    <img src="source_images/DerekPicture.jpg" alt="Man">
+                    <div class="figure-caption">Man</div>
+                </div>                
+                <div class="figure">
+                    <img src="result/2_2_2/low_fft.jpg" alt="Cat FFT Result">
+                    <div class="figure-caption">Cat FFT Result</div>
+                </div>
+                <div class="figure">
+                    <img src="result/2_2_2/high_fft.jpg" alt="Man FFT Result">
+                    <div class="figure-caption">Man FFT Result</div>
+                </div>     
+                <div class="figure">
+                    <img src="result/2_2_2/full_color_cg.jpg" alt="Hybrid Image with Colourful Low Freq and Gray High Freq">
+                    <div class="figure-caption">Hybrid Image with Colourful Low Freq and Gray High Freq</div>
+                </div>     
+                <div class="figure">
+                    <img src="result/2_2_2/full_color_gc.jpg" alt="Hybrid Image with Gray Low Freq and Colourful High Freq">
+                    <div class="figure-caption">Hybrid Image with Gray Low Freq and Colourful High Freq</div>
+                </div>     
+                <div class="figure">
+                    <img src="result/2_2_2/full_color_gg.jpg" alt="Hybrid Image with Gray Low Freq and Gray High Freq">
+                    <div class="figure-caption">Hybrid Image with Gray Low Freq and Gray High Freq</div>
+                </div>     
+                <div class="figure">
+                    <img src="result/2_2_2/full_color_cat.jpg" alt="Hybrid Image with Gray Colourful Freq and Colourful High Freq">
+                    <div class="figure-caption">Hybrid Image with Gray Colourful Freq and Colourful High Freq</div>
+                </div> 
+                <div class="figure">
+                    <img src="result/2_2_2/combine_fft.jpg" alt="Hybrid Image FFT Result">
+                    <div class="figure-caption">Hybrid Image FFT Result</div>
+                </div>
+            </div>                 
+            <div class="grid-container2"> 
+                <div class="figure">
+                    <img src="source_images/hybrid1.jpg" alt="Male">
+                    <div class="figure-caption">Male</div>
+                </div>
+                <div class="figure">
+                    <img src="source_images/hybrid2.jpg" alt="Female">
+                    <div class="figure-caption">Female</div>
+                </div>                
+                <div class="figure">
+                    <img src="result/2_2_2/high_fft_hy.jpg" alt="Male FFT Result">
+                    <div class="figure-caption">Male FFT Result</div>
+                </div>
+                <div class="figure">
+                    <img src="result/2_2_2/low_fft_hy.jpg" alt="Female FFT Result">
+                    <div class="figure-caption">Female FFT Result</div>
+                </div>     
+                <div class="figure">
+                    <img src="result/2_2_2/hy1_cg.jpg" alt="Hybrid Image with Colourful Low Freq and Gray High Freq">
+                    <div class="figure-caption">Hybrid Image with Colourful Low Freq and Gray High Freq</div>
+                </div>     
+                <div class="figure">
+                    <img src="result/2_2_2/hy1_gc.jpg" alt="Hybrid Image with Gray Low Freq and Colourful High Freq">
+                    <div class="figure-caption">Hybrid Image with Gray Low Freq and Colourful High Freq</div>
+                </div>     
+                <div class="figure">
+                    <img src="result/2_2_2/hy1_gg.jpg" alt="Hybrid Image with Gray Low Freq and Gray High Freq">
+                    <div class="figure-caption">Hybrid Image with Gray Low Freq and Gray High Freq</div>
+                </div>     
+                <div class="figure">
+                    <img src="result/2_2_2/hy1_cc.jpg" alt="Hybrid Image with Colourful Loqw Freq and Colourful High Freq">
+                    <div class="figure-caption">Hybrid Image with Colourful Low Freq and Colourful High Freq</div>
+                </div>                    
+                <div class="figure">
+                    <img src="result/2_2_2/combine_fft_hy.jpg" alt="Hybrid Image FFT Result">
+                    <div class="figure-caption">Hybrid Image FFT Result</div>
+                </div>
+            </div>     
+            <div class="grid-container2"> 
+                <div class="figure">
+                    <img src="source_images/hybrid3.jpg" alt="Male">
+                    <div class="figure-caption">Picard's Starship NCC 1701D</div>
+                </div>
+                <div class="figure">
+                    <img src="source_images/hybrid4.jpg" alt="Female">
+                    <div class="figure-caption">Kirk's Starship NCC 1701</div>
+                </div>                
+                <div class="figure">
+                    <img src="result/2_2_2/enterprise_low_fft.jpg" alt="Male FFT Result">
+                    <div class="figure-caption">Picard's Starship NCC 1701D FFT Result</div>
+                </div>
+                <div class="figure">
+                    <img src="result/2_2_2/enterprise_high_fft.jpg" alt="Female FFT Result">
+                    <div class="figure-caption">Kirk's Starship NCC 1701 FFT Result</div>
+                </div>     
+                <div class="figure">
+                    <img src="result/2_2_2/enterprise_cg.jpg" alt="Hybrid Image with Colourful Low Freq and Gray High Freq">
+                    <div class="figure-caption">Hybrid Image with Colourful Low Freq and Gray High Freq</div>
+                </div>     
+                <div class="figure">
+                    <img src="result/2_2_2/enterprise_gc.jpg" alt="Hybrid Image with Gray Low Freq and Colourful High Freq">
+                    <div class="figure-caption">Hybrid Image with Gray Low Freq and Colourful High Freq</div>
+                </div>     
+                <div class="figure">
+                    <img src="result/2_2_2/enterprise_gg.jpg" alt="Hybrid Image with Gray Low Freq and Gray High Freq">
+                    <div class="figure-caption">Hybrid Image with Gray Low Freq and Gray High Freq</div>
+                </div>     
+                <div class="figure">
+                    <img src="result/2_2_2/enterprise_cc.jpg" alt="Hybrid Image with Colourful Loqw Freq and Colourful High Freq">
+                    <div class="figure-caption">Hybrid Image with Colourful Low Freq and Colourful High Freq</div>
+                </div>                    
+                <div class="figure">
+                    <img src="result/2_2_2/enterprise_combine_fft.jpg" alt="Hybrid Image FFT Result">
+                    <div class="figure-caption">Hybrid Image FFT Result</div>
+                </div> 
+            </div> 
+                <p>As we can see in the pictures above, the colorful features are mainly existed in low frequecy area, while high frequency area contains information about edges and shape. The reason why my combine fft result have some white or black squares in the center is that I used different cutoff frequency in low and high frequency area, when the frequencies overlap, we will get a black square, else we will get a white one.</p>
+                <p>Since we have algned two images before hybriding, it's hard to find a proper example for a failure hybrid, because the main objects is finely overlaped and there must have a pair of proper frequencies to seperate them. Based on that, I think it is irreasonable to find a failure example for image hybrid</p>            
+            </section>
+            <section class="section">
+                <h2>Multi-resolution Blending and the Oraple journey</h2>
+                <p>The multi-resolution blending technique, also known as pyramid blending, leverages the power of image pyramids to create seamless blends between two images. This method is particularly effective when combining images with differing characteristics, such as color intensity and structural details, allowing for a smooth transition across the blend.</p>
+                <p>The Gaussian stack and Laplacian stack of one blending example is listed below</p>
+                <div class="grid-container3">
+                    <div class="figure">
+                        <img src="result/2_3/2_3apple/gau_Image1.jpg" alt="Apple Gausian Tower Layer 1">
+                    </div> 
+                    <div class="figure">
+                        <img src="result/2_3/2_3apple/gau_Image2.jpg" alt="Apple Gausian Tower Layer 2">
+                    </div>  
+                    <div class="figure">
+                        <img src="result/2_3/2_3apple/gau_Image3.jpg" alt="Apple Gausian Tower Layer 3">
+                    </div>                      
+                    <div class="figure">
+                        <img src="result/2_3/2_3apple/gau_Image4.jpg" alt="Apple Gausian Tower Layer 4">
+                    </div>  
+                    <div class="figure">
+                        <img src="result/2_3/2_3apple/gau_Image5.jpg" alt="Apple Gausian Tower Layer 5">
+                    </div>
+                    <div class="figure">
+                        <img src="result/2_3/2_3apple/gau_Image6.jpg" alt="Apple Gausian Tower Layer 6">
+                    </div>
+                    <div class="figure">
+                        <img src="result/2_3/2_3orange/gau_Image1.jpg" alt="Orange Gausian Tower Layer 1">
+                    </div> 
+                    <div class="figure">
+                        <img src="result/2_3/2_3orange/gau_Image2.jpg" alt="Orange Gausian Tower Layer 2">
+                    </div>  
+                    <div class="figure">
+                        <img src="result/2_3/2_3orange/gau_Image3.jpg" alt="Orange Gausian Tower Layer 3">
+                    </div>                      
+                    <div class="figure">
+                        <img src="result/2_3/2_3orange/gau_Image4.jpg" alt="Orange Gausian Tower Layer 4">
+                    </div>  
+                    <div class="figure">
+                        <img src="result/2_3/2_3orange/gau_Image5.jpg" alt="Orange Gausian Tower Layer 5">
+                    </div>
+                    <div class="figure">
+                        <img src="result/2_3/2_3orange/gau_Image6.jpg" alt="Orange Gausian Tower Layer 6">
+                    </div>               
+                    <div class="figure">
+                        <img src="result/2_3/2_3apple/laplacian_image0.jpg" alt="Apple Laplacian Tower Layer 1">
+                    </div> 
+                    <div class="figure">
+                        <img src="result/2_3/2_3apple/laplacian_image1.jpg" alt="Apple Laplacian Tower Layer 2">
+                    </div>  
+                    <div class="figure">
+                        <img src="result/2_3/2_3apple/laplacian_image2.jpg" alt="Apple Laplacian Tower Layer 3">
+                    </div>                      
+                    <div class="figure">
+                        <img src="result/2_3/2_3apple/laplacian_image3.jpg" alt="Apple Laplacian Tower Layer 4">
+                    </div>  
+                    <div class="figure">
+                        <img src="result/2_3/2_3apple/laplacian_image4.jpg" alt="Apple Laplacian Tower Layer 5">
+                    </div>
+                    <div class="figure">
+                        <img src="result/2_3/2_3apple/laplacian_image5.jpg" alt="Apple Laplacian Tower Layer 6">
+                    </div>
+                    <div class="figure">
+                        <img src="result/2_3/2_3orange/laplacian_image0.jpg" alt="Orange Laplacian Tower Layer 1">
+                        <div class="figure-caption">Layer 1</div>
+                    </div> 
+                    <div class="figure">
+                        <img src="result/2_3/2_3orange/laplacian_image1.jpg" alt="Orange Laplacian Tower Layer 2">
+                        <div class="figure-caption">Layer 2</div>
+                    </div>  
+                    <div class="figure">
+                        <img src="result/2_3/2_3orange/laplacian_image2.jpg" alt="Apple Laplacian Tower Layer 3">
+                        <div class="figure-caption">Layer 3</div>
+                    </div>                      
+                    <div class="figure">
+                        <img src="result/2_3/2_3orange/laplacian_image3.jpg" alt="Apple Laplacian Tower Layer 4">
+                        <div class="figure-caption">Layer 4</div>
+                    </div>  
+                    <div class="figure">
+                        <img src="result/2_3/2_3orange/laplacian_image4.jpg" alt="Apple Laplacian Tower Layer 5">
+                        <div class="figure-caption">Layer 5</div>
+                    </div>
+                    <div class="figure">
+                        <img src="result/2_3/2_3orange/laplacian_image5.jpg" alt="Apple Laplacian Tower Layer 6">
+                        <div class="figure-caption">Layer 6</div>
+                    </div>  
+                </div>              
+            </section>
+            <section>
+                <p>Not only the basic apple and orange blend but also exploring more complex scenarios with irregular blending masks. The results illustrate how different layers of image pyramids interact to synthesize a cohesive final image, adapting to the contours and unique features of each input.</p>                
+                <p>Multi-resolution blending involves the following steps:</p>
+                <ol>
+                    <li><strong>Image Decomposition:</strong> Each image is decomposed into a set of multi-scale image pyramids.</li>
+                    <li><strong>Layered Blending:</strong> Corresponding layers of the image pyramids are blended using a mask that defines which parts of each image should appear in the final blend.</li>
+                    <li><strong>Image Reconstruction:</strong> The blended layers are then combined to reconstruct the final image, ensuring that transitions between different resolutions are smooth and natural.</li>
+                </ol>
+
+                <p>These steps allow for a dynamic blending process that can handle complex image features and varying textures, making it ideal for creating novel visual effects.</p>
+
+                <p>Beyond the classical apple and orange combination, our experiments included blends using irregular masks and images with distinct textural differences. These experiments highlight the versatility of multi-resolution blending:</p>
+                <div class="grid-container4"> 
+                    <div class="figure">
+                        <img src="source_images/orange.jpeg" alt="Orange">
+                        <div class="figure-caption">Orange</div>
+                    </div>
+                    <div class="figure">
+                        <img src="source_images/apple.jpeg" alt="Apple">
+                        <div class="figure-caption">Apple</div>
+                    </div>   
+                    <div class="figure">
+                        <img src="result/2_4/blend_result/blend.jpg" alt="Apple and Orange Blend">
+                        <div class="figure-caption">Apple and Orange Blend</div>
+                    </div>
+                    <div class="figure">
+                        <img src="result/2_4/AOMask.jpg" alt="Apple and Orange Blend Mask">
+                        <div class="figure-caption">Apple and Orange Blend Mask</div>
+                    </div> 
+                </div> 
+                <div class="grid-container4">
+
+                    <div class="figure">
+                        <img src="source_images/blend3.jpg" alt="White Man">
+                        <div class="figure-caption">White Man</div>
+                    </div>
+                    <div class="figure">
+                        <img src="source_images/blend4.jpg" alt="Black Man">
+                        <div class="figure-caption">Black Man</div>
+                    </div>                                        
+                    <div class="figure">
+                        <img src="result/2_4/blend_result/blackwhite.jpg" alt="Black Man and White Man Blend">
+                        <div class="figure-caption">Black Man and White Man Blend</div>
+                    </div>  
+                    <div class="figure">
+                        <img src="result/2_4/BWMask.jpg" alt="Black Man and White Man Blend Mask">
+                        <div class="figure-caption">Black Man and White Man Blend Mask</div>
+                    </div> 
+                </div>
+                <div class="grid-container4">
+                    <div class="figure">
+                        <img src="source_images/blend1.jpg" alt="Sodiers">
+                        <div class="figure-caption">Sodiers</div>
+                    </div>
+                    <div class="figure">
+                        <img src="source_images/blend2.jpg" alt="Nuclear Bomb">
+                        <div class="figure-caption">Nuclear Bomb</div>
+                    </div> 
+                    <div class="figure">
+                        <img src="result/2_4/blend_result/nuclear_bomb.jpg" alt="Sodiers with Nuclear Bomb">
+                        <div class="figure-caption">Sodiers with Nuclear Bomb</div>
+                    </div>  
+                    <div class="figure">
+                        <img src="result/2_4/blend1mask1.jpg" alt="Sodiers with Nuclear Bomb Mask">
+                        <div class="figure-caption">Sodiers with Nuclear Bomb Mask</div>
+                    </div>  
+                </div>              
+            </section>
+        </article>
+    </div>
+</body>
+</html>
