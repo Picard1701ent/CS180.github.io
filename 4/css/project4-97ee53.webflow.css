@@ -1,0 +1,104 @@
+.w-layout-blockcontainer {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.w-layout-vflex {
+  flex-direction: column;
+  align-items: flex-start;
+  display: flex;
+}
+
+.w-layout-hflex {
+  flex-direction: row;
+  align-items: flex-start;
+  display: flex;
+}
+
+@media screen and (max-width: 991px) {
+  .w-layout-blockcontainer {
+    max-width: 728px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .w-layout-blockcontainer {
+    max-width: none;
+  }
+}
+
+.image {
+  max-width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.image-2 {
+  text-align: left;
+  max-width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  position: static;
+}
+
+.image-3 {
+  margin-top: 60px;
+}
+
+.flex-block {
+  flex-flow: row;
+}
+
+.image-4 {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0;
+}
+
+.image-5 {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.image-6 {
+  margin-right: auto;
+}
+
+.image-7 {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.flex-block-2 {
+  flex-flow: column;
+}
+
+.image-8 {
+  margin-left: auto;
+}
+
+.image-9 {
+  margin-right: auto;
+}
+
+.image-10, .image-11 {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.image-12 {
+  margin-left: auto;
+}
+
+.image-13 {
+  margin-right: auto;
+}
+
+.image-14, .image-15 {
+  margin-left: auto;
+  margin-right: auto;
+}
