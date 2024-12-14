@@ -1,0 +1,72 @@
+<!DOCTYPE html><!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Sat Dec 14 2024 07:31:05 GMT+0000 (Coordinated Universal Time)  -->
+<html data-wf-page="675d2136331381d3f745c644" data-wf-site="675d2136331381d3f745c63d">
+<head>
+  <meta charset="utf-8">
+  <title>final project</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <meta content="Webflow" name="generator">
+  <link href="css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="css/webflow.css" rel="stylesheet" type="text/css">
+  <link href="css/final-project-dea8aa.webflow.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
+  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="images/webclip.png" rel="apple-touch-icon">
+</head>
+<body>
+  <div class="w-layout-blockcontainer w-container">
+    <h1>Final Project </h1>
+  </div>
+  <div class="w-layout-blockcontainer w-container">
+    <div class="w-layout-blockcontainer w-container">
+      <h2>Image Quilting</h2>
+      <h3>Part1 Randomly sampled texture:</h3>
+      <p>By using  quilt_random function, I create a larger output image by randomly sampling patches of a specified size from a given sample image and placing them into the corresponding positions of the output image. Here are some results about using random sampled quilting.The parameters in each sample are the same,: patch size = 21 and overlap is 5</p>
+      <div class="w-layout-hflex"><img src="images/text.jpg" loading="lazy" alt=""><img src="images/text_small.jpg" loading="lazy" alt=""></div>
+      <div class="w-layout-hflex"><img src="images/white.jpg" loading="lazy" alt=""><img src="images/white_small.jpg" loading="lazy" alt=""></div>
+      <div class="w-layout-hflex"><img src="images/brick.jpg" loading="lazy" alt=""><img src="images/bricks_small.jpg" loading="lazy" alt=""></div>
+      <h3>Part 2 Simple Quilt</h3>
+      <p>The parameters in each sample are the same,: patch size is 21 and overlap is 5 and tol is 5</p>
+      <div class="w-layout-hflex"><img src="images/text_simple.jpg" loading="lazy" alt=""><img src="images/text_small.jpg" loading="lazy" alt=""></div>
+      <div class="w-layout-hflex"><img src="images/white_simple.jpg" loading="lazy" alt=""><img src="images/white_small.jpg" loading="lazy" alt=""></div>
+      <div class="w-layout-hflex"><img src="images/brick_simple.jpg" loading="lazy" alt=""><img src="images/bricks_small.jpg" loading="lazy" alt=""></div>
+      <h3>Part3 Cut Quilt</h3>
+      <div class="w-layout-hflex"><img src="images/text_cut.jpg" loading="lazy" alt=""><img src="images/text_small.jpg" loading="lazy" alt=""></div>
+      <div class="w-layout-hflex"><img src="images/white_cut.jpg" loading="lazy" alt=""><img src="images/white_small.jpg" loading="lazy" alt=""></div>
+      <div class="w-layout-hflex"><img src="images/brick_cut.jpg" loading="lazy" alt=""><img src="images/bricks_small.jpg" loading="lazy" alt=""></div>
+      <p><strong>I took out two patches from example &quot;brick_small.jpg&quot; and visualized the masks and costs </strong></p>
+      <div class="w-layout-hflex"><img src="images/out_patch.jpg" loading="lazy" width="186" alt="">
+        <p>This is a selected patch</p>
+      </div>
+      <div class="w-layout-hflex flex-block"><img src="images/cut_mask2.jpg" loading="lazy" width="131" alt="" class="image-3"><img src="images/cut_mask.jpg" loading="lazy" width="350" alt="" class="image"><img src="images/cut_mask1.jpg" loading="lazy" width="293" alt="" class="image-2">
+        <p>The first three images is the cut mask of the patches. The first one is the mask along the column and the third one is the mask along the row,  while the mid one is the combination of the masks. The yellow part indicates the region of the new patch and the purple part means the region of previous image </p>
+      </div>
+      <div class="w-layout-hflex"><img src="images/cost.jpg" loading="lazy" alt="">
+        <p>The map above is the SSD cost map. The yellow region means the cost is high and blue region means the cost is low(under the selected patch)</p>
+      </div>
+      <h3>Additional Quilting</h3>
+      <div class="w-layout-hflex flex-block"></div>
+      <div class="w-layout-hflex"><img src="images/cut_texture2.jpg" loading="lazy" alt=""><img src="images/texture_add2.jpg" loading="lazy" alt=""></div>
+      <div class="w-layout-hflex flex-block"><img src="images/cut_texture0.jpg" loading="lazy" alt=""><img src="images/texture_add1.jpg" loading="lazy" alt=""></div>
+      <h3>Part 4 Texture Transfer </h3>
+      <div class="w-layout-hflex"><img src="images/sketch1.jpg" loading="lazy" alt=""><img src="images/texture_transfer0.jpg" loading="lazy" alt=""><img src="images/transfer2.jpg" loading="lazy" alt=""></div>
+      <div class="w-layout-hflex"><img src="images/sketch.jpg" loading="lazy" alt=""><img src="images/feynman.jpg" loading="lazy" alt=""><img src="images/transfer1.jpg" loading="lazy" alt=""></div>
+    </div>
+  </div>
+  <div class="w-layout-blockcontainer w-container">
+    <h2>Gradient Domain Blending</h2>
+    <h3>Part 1 Image Reconstruction </h3>
+    <p>In this  reconstruct_image_from_gradients function, my goal is to reconstruct an image from its gradients by solving a least-squares optimization problem. The idea is to match the gradients of the reconstructed image with those of the source image in both the x and y directions while maintaining a fixed intensity at a reference pixel. <br><br>To do this, I compute the gradients by comparing adjacent pixel intensities, which serves as the basis for the optimization constraints. I then set up a system of equations where the differences in pixel intensities between neighboring pixels in the reconstructed image approximate the gradient differences in the source image. Additionally, I introduce an intensity constraint at the top-left corner pixel to ensure that both images align at that position.To solve this system, I create a sparse matrix A, which encodes the gradient constraints for each pixel, and a vector b, which contains the gradient values from the source image. The matrix A models the relationships between neighboring pixels, while b holds the gradient differences from the source image. I solve the linear system by using a least-squares solver to obtain the pixel intensities of the reconstructed image. The result is a reconstructed image that closely matches the gradients of the source image, preserving its local structure while satisfying the given constraints.<br><br>Here is the reconstruct result. Left one is the original image, right one is the reconstruct image </p>
+    <div class="w-layout-hflex"><img src="images/toy_problem.png" loading="lazy" alt=""><img src="images/recon_v_image.png" loading="lazy" alt=""></div>
+    <h3>Part 2 Poisson Blending </h3>
+    <p><code>poissonBlend</code>, performs Poisson image editing by blending a source image (<code>im_s</code>) onto a target background (<code>im_background</code>) using a binary mask (<code>mask_s</code>) that defines the region to be blended. The function works on each color channel separately. For each channel, it first extracts the relevant region from both the source and background images based on the mask. It then computes the gradient of the source image in the selected region using the <code>gradient</code> function and calculates the Laplacian of the source by applying the <code>divergence</code> operator to the gradients. The function then iteratively solves a Poisson equation (500 iterations) to blend the source image into the background. During each iteration, it updates the pixel values of the blended region by averaging neighboring pixel values and subtracting the Laplacian at each point. The result is a seamlessly blended region that integrates the source image with the target background. Finally, the function combines the blended regions from all channels and converts the result back to the appropriate image format using <code>im2uint8</code>.</p>
+    <div class="w-layout-hflex"><img src="images/p2.png" loading="lazy" sizes="(max-width: 767px) 100vw, (max-width: 991px) 95vw, 940px" srcset="images/p2.png 500w, images/p2.png 800w, images/p2.png 1080w, images/p2.png 1600w, images/p2.png 2000w, images/p2.png 2600w, images/p2.png 3200w, images/p2.png 3730w" alt=""></div>
+    <div class="w-layout-hflex"><img src="images/p1.png" loading="lazy" sizes="(max-width: 767px) 100vw, (max-width: 991px) 95vw, 940px" srcset="images/p1.png 500w, images/p1.png 800w, images/p1.png 1080w, images/p1.png 1600w, images/p1.png 2000w, images/p1.png 2600w, images/p1.png 2637w" alt=""></div>
+    <h3>B&amp;W MixGradient</h3>
+    <p>The function <code>poissonBlendMixedGradients</code> performs a Poisson image blending operation similar to traditional Poisson blending but with a key difference: it uses mixed gradients for blending. While traditional Poisson blending uses the gradient of the source image to guide the blending, this function compares the gradients of both the source (<code>im_s</code>) and target (<code>im_background</code>) images. For each pixel in the region defined by the mask (<code>mask_s</code>), it selects the gradient with the larger magnitude between the source and target to guide the blending process. This approach ensures that the more prominent gradient (whether from the source or the background) is used, which can help better preserve details and edge continuity in the blended region. The function iteratively solves the Poisson equation for 500 iterations to seamlessly integrate the source image into the target background, updating the pixel values by averaging neighboring pixels and subtracting the Laplacian. The final result is a smoother and more natural blend that takes into account the stronger gradients, leading to a more realistic integration of the images.</p>
+    <div class="w-layout-hflex"><img src="images/bw1.png" loading="lazy" sizes="(max-width: 767px) 100vw, (max-width: 991px) 95vw, 940px" srcset="images/bw1.png 500w, images/bw1.png 800w, images/bw1.png 1080w, images/bw1.png 1600w, images/bw1.png 2000w, images/bw1.png 2600w, images/bw1.png 2781w" alt=""></div>
+    <div class="w-layout-hflex"><img src="images/bw2.png" loading="lazy" sizes="(max-width: 767px) 100vw, (max-width: 991px) 95vw, 940px" srcset="images/bw2.png 500w, images/bw2.png 800w, images/bw2.png 1080w, images/bw2.png 1600w, images/bw2.png 2000w, images/bw2.png 2600w, images/bw2.png 3200w, images/bw2.png 4419w" alt=""></div>
+  </div>
+  <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=675d2136331381d3f745c63d" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+  <script src="js/webflow.js" type="text/javascript"></script>
+</body>
+</html>
